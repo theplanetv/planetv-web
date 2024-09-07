@@ -1,0 +1,26 @@
+= planetv-web-app
+
+== Giới thiệu
+
+Đây là dự án website planetv
+
+== Sử dụng và setup dự án
+
+Khởi động docker container với docker compose
+[bash]
+```
+docker compose up -d
+```
+
+Dừng docker container
+[bash]
+```
+docker compose stop
+```
+
+Xóa và gỡ docker container
+[bash]
+```
+docker compose down
+```
+

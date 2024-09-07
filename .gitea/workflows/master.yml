@@ -1,0 +1,44 @@
+name: Gitea Actions
+run-name: ${{ gitea.actor }} is testing out Gitea Actions 🚀
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build-test-push:
+    name: Build dev docker image
+    runs-on: docker
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
+    - name: Build and start docker compose
+      run: docker compose up -d
+      if: always()
+    
+#    - name: Login to Gitea Container Registry
+#      uses: docker/login-action@v3
+#      with:
+#        registry: git.planetv.io.vn
+#        username: ${{ gitea.actor }}
+#        password: ${{ secrets.RW_PACKAGES }}
+
+#    - name: Tag and push docker image
+#      run: |
+#        docker tag planetv-web-app-image:latest git.planetv.io.vn/planetv/planetv-web-app/planetv-web-app:latest
+#        docker push git.planetv.io.vn/planetv/planetv-web-app/planetv-web-app:latest
+
+  nix-devshell:
+    name: Test nix flake devshell
+    runs-on: nix
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
+    - name: Enter nix flake devshell
+      run: nix develop .
+      if: always()
+

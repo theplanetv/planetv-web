@@ -1,0 +1,16 @@
+networks:
+  network:  # Define the network
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24  # Define the subnet for the custom network
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - '5170:3000'
+    networks:
+      network:
+        ipv4_address: 10.0.0.4  # Specify the desired IP address for the API container
