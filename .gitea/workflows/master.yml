@@ -15,7 +15,26 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build and start docker compose
-      run: docker compose up -d
+      run: sh script.sh build-start
+
+    - name: Generate database documentation
+      run: sh script.sh generate-database-doc
+      if: always()
+
+    - name: Test database blogcategory
+      run: sh script.sh test-database-blogcategory
+      if: always()
+
+    - name: Test database blogtag
+      run: sh script.sh test-database-blogtag
+      if: always()
+
+    - name: Test database blogfile
+      run: sh script.sh test-database-blogfile
+      if: always()
+
+    - name: Test database blogtagfile
+      run: sh script.sh test-database-blogtagfile
       if: always()
     
 #    - name: Login to Gitea Container Registry

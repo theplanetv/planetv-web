@@ -6,11 +6,24 @@ networks:
         - subnet: 10.0.0.0/24  # Define the subnet for the custom network
 
 services:
+  database:
+    build:
+      dockerfile: ./docker/database/Dockerfile
+      args:
+        ENVIRONMENT: ${ENV_DEV}
+    ports:
+      - '5170:5432'
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      network:
+        ipv4_address: 10.0.0.2
+
   app:
     build:
       dockerfile: Dockerfile
     ports:
-      - '5170:3000'
+      - '5172:3000'
     networks:
       network:
-        ipv4_address: 10.0.0.4  # Specify the desired IP address for the API container
+        ipv4_address: 10.0.0.4
