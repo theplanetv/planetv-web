@@ -21,22 +21,30 @@ jobs:
       run: sh script.sh generate-database-doc
       if: always()
 
-    - name: Test database blogcategory
-      run: sh script.sh test-database-blogcategory
+    - name: Test api service auth
+      run: sh script.sh test-api-service-auth
       if: always()
 
-    - name: Test database blogtag
-      run: sh script.sh test-database-blogtag
+    - name: Test api service blogcategory
+      run: sh script.sh test-api-service-blogcategory
       if: always()
 
-    - name: Test database blogfile
-      run: sh script.sh test-database-blogfile
+    - name: Test api service blogtag
+      run: sh script.sh test-api-service-blogtag
       if: always()
 
-    - name: Test database blogtagfile
-      run: sh script.sh test-database-blogtagfile
+    - name: Test api service blogfile
+      run: sh script.sh test-api-service-blogfile
       if: always()
-    
+
+    - name: Test api service blogtagfile
+      run: sh script.sh test-api-service-blogtagfile
+      if: always()
+
+    # - name: Test api controller auth
+    #   run: sh script.sh test-api-controller-auth
+    #   if: always()
+
 #    - name: Login to Gitea Container Registry
 #      uses: docker/login-action@v3
 #      with:
@@ -60,4 +68,3 @@ jobs:
     - name: Enter nix flake devshell
       run: nix develop .
       if: always()
-
