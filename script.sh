@@ -5,6 +5,9 @@ export $(grep -v '^#' .env | xargs)
 PROJECT=$(eval echo $PROJECT)
 PROJECT_DATABASE_CONTAINER=$(eval echo $PROJECT_DATABASE_CONTAINER)
 PROJECT_DATABASE_IMAGE=$(eval echo $PROJECT_DATABASE_IMAGE)
+PROJECT_API_CONTAINER=$(eval echo $PROJECT_API_CONTAINER)
+PROJECT_API_IMAGE=$(eval echo $PROJECT_API_IMAGE)
+# PROJECT_APP_CONTAINER=$(eval echo $PROJECT_APP_CONTAINER)
 PROJECT_APP_IMAGE=$(eval echo $PROJECT_APP_IMAGE)
 
 # Check postgresql database ready or not
@@ -56,21 +59,25 @@ check_postgresql_for_doing() {
 					echo "Files found in host documentation directory."
 				fi
 			;;
-			
-			"test-blogcategory" )
-				docker exec ${PROJECT_DATABASE_CONTAINER} go test -v /app/test/blogcategory.go /app/test/blogcategory_test.go
+
+			"test-service-blogcategory" )
+				docker exec ${PROJECT_API_CONTAINER} go test -v \
+				/api-fiber/services/blogcategory.go /api-fiber/services/blogcategory_test.go
 			;;
 
-			"test-blogfile" )
-				docker exec ${PROJECT_DATABASE_CONTAINER} go test -v /app/test/blogfile.go /app/test/blogfile_test.go
+			"test-service-blogfile" )
+				docker exec ${PROJECT_API_CONTAINER} go test -v \
+				/api-fiber/services/blogfile.go /api-fiber/services/blogfile_test.go
 			;;
 
-			"test-blogtag" )
-				docker exec ${PROJECT_DATABASE_CONTAINER} go test -v /app/test/blogtag.go /app/test/blogtag_test.go
+			"test-service-blogtag" )
+				docker exec ${PROJECT_API_CONTAINER} go test -v \
+				/api-fiber/services/blogtag.go /api-fiber/services/blogtag_test.go
 			;;
 
-			"test-blogtagfile" )
-				docker exec ${PROJECT_DATABASE_CONTAINER} go test -v /app/test/blogtagfile.go /app/test/blogtagfile_test.go
+			"test-service-blogtagfile" )
+				docker exec ${PROJECT_API_CONTAINER} go test -v \
+				/api-fiber/services/blogtagfile.go /api-fiber/services/blogtagfile_test.go
 			;;
 		esac
 	else
@@ -88,6 +95,7 @@ remove_container() {
 }
 remove_image() {
 	docker rmi ${PROJECT_DATABASE_IMAGE}
+	docker rmi ${PROJECT_API_IMAGE}
 	docker rmi ${PROJECT_APP_IMAGE}
 }
 
@@ -123,18 +131,27 @@ if [ $# -eq 1 ]; then
 			remove_image ;;
 		"generate-database-doc" )
 			check_postgresql_for_doing documentation ;;
-		"test-database-blogcategory" )
-			check_postgresql_for_doing test-blogcategory ;;
-		"test-database-blogtag" )
-			check_postgresql_for_doing test-blogtag ;;
-		"test-database-blogfile" )
-			check_postgresql_for_doing test-blogfile ;;
-		"test-database-blogtagfile" )
-			check_postgresql_for_doing test-blogtagfile ;;
+
+		# Test service
+		"test-api-service-auth" )
+			docker exec ${PROJECT_API_CONTAINER} go test -v \
+			/api-fiber/services/auth.go /api-fiber/services/auth_test.go ;;
+		"test-api-service-blogcategory" )
+			check_postgresql_for_doing test-service-blogcategory ;;
+		"test-api-service-blogtag" )
+			check_postgresql_for_doing test-service-blogtag ;;
+		"test-api-service-blogfile" )
+			check_postgresql_for_doing test-service-blogfile ;;
+		"test-api-service-blogtagfile" )
+			check_postgresql_for_doing test-service-blogtagfile ;;
+
+		# Test controller
+		"test-api-controller-auth" )
+			docker exec ${PROJECT_API_CONTAINER} go test -v \
+			/api-fiber/controllers/auth.go /api-fiber/controllers/auth_test.go ;;
 		* )
 			print_list ;;
 	esac
 else
 	print_list
 fi
-

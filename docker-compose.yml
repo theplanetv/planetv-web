@@ -19,6 +19,29 @@ services:
       network:
         ipv4_address: 10.0.0.2
 
+  api-fiber:
+    build:
+      dockerfile: ./docker/api-fiber/Dockerfile
+      args:
+        ENVIRONMENT: ${ENV_DEV}
+    environment:
+      API_IP: ${API_IP}
+      API_PORT: ${API_PORT}
+      BCRYPT_COST: ${BCRYPT_COST}
+      DEFAULT_USERNAME: ${DEFAULT_USERNAME}
+      DEFAULT_PASSWORD: ${DEFAULT_PASSWORD}
+
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+    ports:
+      - '5171:5171'
+    networks:
+      network:
+        ipv4_address: 10.0.0.3
+
   app:
     build:
       dockerfile: Dockerfile
