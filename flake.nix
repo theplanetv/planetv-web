@@ -13,9 +13,14 @@
       devShells = eachSystem (pkgs: {
         default = pkgs.mkShell {
           buildInputs = [
+            pkgs.go
+            pkgs.gopls
             pkgs.nodejs
             pkgs.nodePackages.typescript
             pkgs.nodePackages.typescript-language-server
+
+            # count LOC
+            pkgs.scc
           ];
         };
       });
