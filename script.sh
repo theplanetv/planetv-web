@@ -90,6 +90,9 @@ check_postgresql_for_doing() {
 build_start_container() {
 	docker compose up -d
 }
+stop_container() {
+	docker compose stop
+}
 remove_container() {
 	docker compose down
 }
@@ -98,24 +101,32 @@ remove_image() {
 	docker rmi ${PROJECT_API_IMAGE}
 	docker rmi ${PROJECT_APP_IMAGE}
 }
+remove_all() {
+	remove_container
+	remove_image
+}
 
 # All in one command
 rebuild_all() {
-	remove_container
-	remove_image
+	remove_all
 	build_start_container
 }
 
 # Print list of options
 print_list() {
 	echo "Pass wrong arguments! Here is list of arguments for docker script"
-	echo -e "\tbuild-start      : build image and start container"
-	echo -e "\trebuild-all      : rebuild all"
-	echo -e "\tremove-all       : remove all (container, network, image)"
-	echo -e "\tremove-container : remove container"
-	echo -e "\tremove-all-image : remove all image"
-	echo -e "\tstart            : start docker compose"
-	echo -e "\tstop             : stop docker compose"
+	echo -e "\tbuild-start                   : build image and start container"
+	echo -e "\tstop                          : stop container"
+	echo -e "\trebuild-all                   : rebuild all"
+	echo -e "\tremove-all                    : remove all (container, network, image)"
+	echo -e "\tremove-container              : remove container"
+	echo -e "\tremove-image                  : remove all image"
+	echo -e "\ttest-api-service-auth         : test api service auth"
+	echo -e "\ttest-api-service-blogcategory : test api service blogcategory"
+	echo -e "\ttest-api-service-blogtag      : test api service blogtag"
+	echo -e "\ttest-api-service-blogfile     : test api service blogfile"
+	echo -e "\ttest-api-service-blogtagfile  : test api service blogtagfile"
+	echo -e "\ttest-api-controller-auth      : test api controller auth"
 }
 
 # Main script
