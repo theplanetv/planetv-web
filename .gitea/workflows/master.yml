@@ -57,6 +57,10 @@ jobs:
 #        docker tag planetv-web-app-image:latest git.planetv.io.vn/planetv/planetv-web-app/planetv-web-app:latest
 #        docker push git.planetv.io.vn/planetv/planetv-web-app/planetv-web-app:latest
 
+    - name: Remove all container and image
+      run: sh script.sh remove-all
+      if: always()
+
   nix-devshell:
     name: Test nix flake devshell
     runs-on: nix
