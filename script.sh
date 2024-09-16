@@ -136,6 +136,8 @@ if [ $# -eq 1 ]; then
 			build_start_container ;;
 		"rebuild-all" )
 			rebuild_all ;;
+		"remove-all" )
+			remove_all ;;
 		"remove-container" )
 			remove_container ;;
 		"remove-image" )
