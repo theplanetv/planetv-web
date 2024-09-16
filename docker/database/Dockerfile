@@ -11,14 +11,6 @@ ARG ENVIRONMENT
 WORKDIR /app/schemaspy
 COPY schemaspy/postgresql-42.7.3.jar schemaspy/schemaspy-6.2.4.jar ./
 
-# Test dir
-WORKDIR /app/test
-
-# Download and copy test files
-COPY database/test/go.mod database/test/go.sum ./
-COPY database/test ./
-RUN go mod tidy
-
 # Copy the appropriate setup file based on the environment
 COPY database/src /docker-entrypoint-initdb.d/src
 
