@@ -1,28 +1,36 @@
 {
   inputs = {
-    #nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05";
-    systems.url = "github:nix-systems/default";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
   };
 
   outputs =
-    { systems, nixpkgs, ... }@inputs:
+    { self, nixpkgs, ... }@inputs:
     let
-      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
     in
     {
-      devShells = eachSystem (pkgs: {
-        default = pkgs.mkShell {
-          buildInputs = [
-            pkgs.go
-            pkgs.gopls
-            pkgs.nodejs
-            pkgs.nodePackages.typescript
-            pkgs.nodePackages.typescript-language-server
+      devShells = forAllSystems (system: 
+        let
+          pkgs = nixpkgsFor.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            buildInputs = [
+              pkgs.go
+              pkgs.gopls
+              pkgs.nodejs
+              pkgs.nodePackages.typescript
+              pkgs.nodePackages.typescript-language-server
 
-            # count LOC
-            pkgs.scc
-          ];
-        };
-      });
+              # count LOC
+              pkgs.scc
+            ];
+          };
+        }
+      );
     };
 }
