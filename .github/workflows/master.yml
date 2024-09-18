@@ -1,5 +1,5 @@
-name: Gitea Actions
-run-name: ${{ gitea.actor }} is testing out Gitea Actions 🚀
+name: Github Actions
+run-name: ${{ github.actor }} is running Github Actions 🚀
 on:
   push:
     branches:
@@ -8,14 +8,14 @@ on:
 jobs:
   build-test-push:
     name: Build dev docker image
-    runs-on: docker
+    runs-on: ubuntu-latest
 
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
 
-    - name: Build and start docker compose
-      run: sh script.sh build-start
+    - name: Setup Docker, Docker compose and build start
+      uses: hoverkraft-tech/compose-action@v2.0.1
 
     - name: Generate database documentation
       run: sh script.sh generate-database-doc
@@ -63,11 +63,14 @@ jobs:
 
   nix-devshell:
     name: Test nix flake devshell
-    runs-on: nix
+    runs-on: ubuntu-latest
 
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
+
+    - name: Setup nix
+      uses: cachix/install-nix-action@v27
 
     - name: Enter nix flake devshell
       run: nix develop .
