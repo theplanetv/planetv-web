@@ -20,6 +20,7 @@ func main() {
 	// Add routes
 	api := app.Group("/api")
 	routes.AuthRoutes(api)
+	routes.BlogcategoryRoutes(api)
 
 	app.Listen(":" + config.API_PORT)
 }

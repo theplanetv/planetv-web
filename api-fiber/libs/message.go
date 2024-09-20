@@ -28,4 +28,5 @@ const (
 	REMOVE_SUCCESS                     = "Xóa dữ liệu thành công"
 	REMOVE_UNSUCCESS                   = "Xóa dữ liệu không thành công"
 	GET_DATA_UNSUCCESS                 = "Lấy dữ liệu không thành công"
+	GET_DATA_SUCCESS                   = "Lấy dữ liệu thành công"
 )
