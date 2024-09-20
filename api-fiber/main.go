@@ -21,6 +21,7 @@ func main() {
 	api := app.Group("/api")
 	routes.AuthRoutes(api)
 	routes.BlogcategoryRoutes(api)
+	routes.BlogTagRoutes(api)
 
 	app.Listen(":" + config.API_PORT)
 }
