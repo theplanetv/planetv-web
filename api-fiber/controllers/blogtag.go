@@ -19,7 +19,7 @@ func (controller *BlogTagController) New() {
 	controller.service.Open()
 }
 
-func (controller BlogTagController) Count(c *fiber.Ctx) error {
+func (controller *BlogTagController) Count(c *fiber.Ctx) error {
 	// Open and close database after ending
 	controller.service.Open()
 	defer controller.service.Close()
@@ -39,7 +39,7 @@ func (controller BlogTagController) Count(c *fiber.Ctx) error {
 	})
 }
 
-func (controller BlogTagController) GetAll(c *fiber.Ctx) error {
+func (controller *BlogTagController) GetAll(c *fiber.Ctx) error {
 	// Get limit query
 	limit, err := strconv.Atoi(c.Query("limit"))
 	if err != nil {
@@ -79,7 +79,7 @@ func (controller BlogTagController) GetAll(c *fiber.Ctx) error {
 	})
 }
 
-func (controller BlogTagController) Create(c *fiber.Ctx) error {
+func (controller *BlogTagController) Create(c *fiber.Ctx) error {
 	// Get input body
 	inputdata := models.BlogTag{}
 	if err := c.BodyParser(&inputdata); err != nil {
@@ -106,7 +106,7 @@ func (controller BlogTagController) Create(c *fiber.Ctx) error {
 	})
 }
 
-func (controller BlogTagController) Update(c *fiber.Ctx) error {
+func (controller *BlogTagController) Update(c *fiber.Ctx) error {
 	// Get input body
 	inputdata := models.BlogTag{}
 	if err := c.BodyParser(&inputdata); err != nil {
@@ -133,7 +133,7 @@ func (controller BlogTagController) Update(c *fiber.Ctx) error {
 	})
 }
 
-func (controller BlogTagController) Remove(c *fiber.Ctx) error {
+func (controller *BlogTagController) Remove(c *fiber.Ctx) error {
 	// Get id param
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
