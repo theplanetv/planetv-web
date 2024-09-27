@@ -42,18 +42,9 @@ services:
       network:
         ipv4_address: 10.0.0.3
 
-  #web-next:
-  #  build:
-  #    dockerfile: ./docker/web-next/Dockerfile
-  #  ports:
-  #    - '5172:3000'
-  #  networks:
-  #    network:
-  #      ipv4_address: 10.0.0.4
-
-  web-nuxt:
+  web-next:
     build:
-      dockerfile: ./docker/web-nuxt/Dockerfile
+      dockerfile: ./docker/web-next/Dockerfile
     ports:
       - '5172:3000'
     networks:
